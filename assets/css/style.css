@@ -1,11 +1,12 @@
 * {
     box-sizing: border-box;
+    border: 1px solid red;
 }
 
 :root {
     --primary-color: #FFBF00;
-    --secondary-color: #62929E;
-    --tertiary-color: #770058;
+    --secondary-color: #770058;
+    --tertiary-color: ;
     --light-color: #E7DEDA;
 }
 
@@ -30,7 +31,7 @@ nav {
 }
 
 nav div {
-    flex: 2;
+    flex: 4;
     margin-left: 25px;
 }
 
@@ -39,24 +40,25 @@ h2{
 }
 
 .time-container {
-    flex: 2;
+    flex: 4;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 #timer {
-    color: var(--tertiary-color);
+    color: var(--secondary-color);
     padding: 10px 20px;
-    border: 1px solid var(--tertiary-color);
+    border: 1px solid var(--secondary-color);
     border-radius: 15px;
     font-size: 18px;
     margin-right: 30px;
-    width: 50%;
+    width: 30%;
     align-self: center;
     
 }
 
 /* Main Content Styling */
+
 main {
     display: flex;
     align-items: center;
@@ -68,26 +70,55 @@ p {
 }
 
 .main-container {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
     border-radius: 25px;
     background-color: var(--secondary-color);
     color: var(--primary-color);
+    margin: 10px;
+    margin-top: 50px;
+    border: 2px solid var(--primary-color);
     text-align: center;
     padding: 20px;
-    width:fit-content;
-    align-self: center;
-    margin: 10px;
-    margin-top: 70px;
-    border: 2px solid var(--tertiary-color);
+    padding-bottom: 30px;
+}
 
+.welcome-info {
+    margin-top: 5px;
 }
 
  .btn {
-    color: var(--primary-color);
-    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 15px;
+}
+
+/* Question Styling */
+.question-container {
+    display: flex;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 20px;
+    width: fit-content; 
+}
+
+#question {
+    margin: 0;
+}
+
+/* Answer Styling */
+.answer-container {
+    background-color: var(--light-color);
+    color: var(--secondary-color);
+    text-align: left;
+    width: 50%;
+    border-color: var(--secondary-color);
+}
+
+.answer {
+    padding: 5px;
+    margin: 15px;
+    border-radius: 15px;
+    border: 2px solid var(--secondary-color);
+
 }
