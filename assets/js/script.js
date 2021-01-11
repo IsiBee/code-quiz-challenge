@@ -9,6 +9,7 @@ var beginQuizEl = document.querySelector("#start-button");
 var timerEl = document.querySelector("#timer");
 var highScoreEl = document.querySelector("#final-score");
 var highScoreBtn = document.querySelector("#highScore-btn");
+var viewBtn = document.querySelector("#view-highscores");
 
 var welcomeEl = document.querySelector(".main-container");
 var questionContainer = document.querySelector(".question-container");
@@ -174,18 +175,30 @@ var endQuiz = function () {
 };
 
 var viewHighScores = function(){
+    // If someone viewed highscores without completing the quiz.
+    hideContent(timerEl);
+    hideContent(questionContainer);
+    hideContent(answerContainer);
+    hideContent(formEl);
+    hideContent(welcomeEl);
+    hideContent(beginQuizEl);
+
+
+    showContent(highScoreContainer);
+    var information = document.getElementById("final-information");
+    information.textContent = "HighScores: "
     var scores = JSON.parse(localStorage.getItem("highScores"));
-    var scoreList = document.createElement("ul");
     for(var i=0; i < scores.length; i++){
-        var item = document.createElement("li")
+        var item = document.createElement("h4")
         var initialItem = scores[i].inits;
         var highScoreItem = scores[i].score;
 
-        item.textContent = initialItem + " - " + highScoreItem
-        scoreList.appendChild(item);
+        
+        item.textContent = initialItem + " - " + highScoreItem;
+        highScoreContainer.appendChild(item);
     }
 
-}
+};
 
 var saveHighScore = function (event) {
     event.preventDefault();
@@ -222,9 +235,12 @@ var saveHighScore = function (event) {
     hideContent(timerEl);
     hideContent(questionContainer);
     hideContent(answerContainer);
-    //hideContent(highScoreContainer);
+    hideContent(highScoreContainer);
 
     beginQuizEl.addEventListener("click", takeQuiz);
 
     highScoreBtn.addEventListener("click", saveHighScore);
+
+    viewBtn.addEventListener("click", viewHighScores);
+
 
