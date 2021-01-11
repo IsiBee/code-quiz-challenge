@@ -7,10 +7,14 @@ var quizScore = 0;
 
 var beginQuizEl = document.querySelector("#start-button");
 var timerEl = document.querySelector("#timer");
+var highScoreEl = document.querySelector("#final-score");
+var highScoreBtn = document.querySelector("#highScore-btn");
 
 var welcomeEl = document.querySelector(".main-container");
 var questionContainer = document.querySelector(".question-container");
 var answerContainer = document.querySelector(".answer-container");
+var highScoreContainer = document.querySelector(".highScore-container");
+var formEl = document.querySelector(".initials-form");
 
 var questionEl = document.querySelector("#question");
 var answerAEl = document.querySelector("#answer-a");
@@ -41,10 +45,14 @@ var quizMultipleChoiceAnswers = [{ a: "<script>", b: "<head>", c: "<meta>", d: "
 { a: "end", b: "!=", c: "return", d: "var" },
 { a: "===", b: "else if", c: "switch statements", d: "conditions" },
 { a: "recursion", b: "erosion", c: "innerHTML", d: "getAttribute" },
-{ a: "Changing the content of HTML elements?", b: "Changing the CSS of HTML elements", 
-c: "Hiding HTML elements", d: "Cooking dinner" },
-{ a: "confirm('This is an alert')", b: "alert('This is an alert')", 
-c: "document.alert('This is an alert')", d: "prompt('This is an alert'" },
+{
+    a: "Changing the content of HTML elements?", b: "Changing the CSS of HTML elements",
+    c: "Hiding HTML elements", d: "Cooking dinner"
+},
+{
+    a: "confirm('This is an alert')", b: "alert('This is an alert')",
+    c: "document.alert('This is an alert')", d: "prompt('This is an alert'"
+},
 { a: "nanoseconds", b: "minutes", c: "seconds", d: "milliseconds" },
 { a: "clearEyed()", b: "clearAll()", c: "clearInterval()", d: "clearTimeout()" }];
 
@@ -60,7 +68,7 @@ var showContent = function (element) {
 var countDown = function () {
     showContent(timerEl);
     var timeLeft = setInterval(function () {
-        if (timeCounter <= 0) {
+        if ((timeCounter <= 0) || (questionNumber === quizQuestions.length)) {
             hideContent(timerEl);
             clearInterval(timeLeft);
             endQuiz();
@@ -72,7 +80,7 @@ var countDown = function () {
     }, 1000);
 };
 
-var clearResult = function(){
+var clearResult = function () {
     resultEl.textContent = "";
 };
 
@@ -144,14 +152,79 @@ var takeQuiz = function () {
 
 };
 
+var score = function () {
+    var totalScore = quizScore + timeCounter;
+    if (totalScore < 0) {
+        totalScore = 0;
+    }
+    return totalScore;
+};
+
 var endQuiz = function () {
-    console.log("Ended");
+    console.log(score());
+    hideContent(timerEl);
+    hideContent(questionContainer);
+    hideContent(answerContainer);
+    console.log("ended");
+
+    showContent(highScoreContainer);
+
+    highScoreEl.textContent = "Quiz Complete! Your score is: " + score();
+
+};
+
+var viewHighScores = function(){
+    var scores = JSON.parse(localStorage.getItem("highScores"));
+    var scoreList = document.createElement("ul");
+    for(var i=0; i < scores.length; i++){
+        var item = document.createElement("li")
+        var initialItem = scores[i].inits;
+        var highScoreItem = scores[i].score;
+
+        item.textContent = initialItem + " - " + highScoreItem
+        scoreList.appendChild(item);
+    }
+
+}
+
+var saveHighScore = function (event) {
+    event.preventDefault();
+    // get initials from form.
+    var initials = document.getElementById("initials-input").value;
+    // Verify initials are not null
+    if (initials) {
+        hideContent(formEl);
+        // get current user's score
+        var timeScore = score();
+        // save both initials and score in the scoreObject.
+        var scoreObj = {
+            inits: initials,
+            score: timeScore
+        };
+
+        // set the list equal to empty array.
+        var highscoreList = [];
+        if(localStorage.getItem("highScores")){
+            highscoreList = JSON.parse(localStorage.getItem("highScores"));
+        }
+
+        // Adds the latest scoreObj to the end of list of scoreObjs.
+        highscoreList.push(scoreObj);
+        // set your scoreObj into local storage
+        localStorage.setItem("highScores", JSON.stringify(highscoreList));
+    }
+
+    viewHighScores();
 };
 
 
-// Event Listeners
-hideContent(timerEl);
-hideContent(questionContainer);
-hideContent(answerContainer);
-beginQuizEl.addEventListener("click", takeQuiz);
+    // Event Listeners
+    hideContent(timerEl);
+    hideContent(questionContainer);
+    hideContent(answerContainer);
+    //hideContent(highScoreContainer);
+
+    beginQuizEl.addEventListener("click", takeQuiz);
+
+    highScoreBtn.addEventListener("click", saveHighScore);
 
