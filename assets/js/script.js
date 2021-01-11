@@ -162,11 +162,9 @@ var score = function () {
 };
 
 var endQuiz = function () {
-    console.log(score());
     hideContent(timerEl);
     hideContent(questionContainer);
     hideContent(answerContainer);
-    console.log("ended");
 
     showContent(highScoreContainer);
 
