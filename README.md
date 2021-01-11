@@ -4,7 +4,7 @@ This challenge was to create a JavaScript quiz where a user could save highscore
 
 ## Description
 
-This challenge relied heavily on learning the DOM and ability to manipulate HTML elements through JavaScript.
+This challenge relied heavily on learning the DOM and manipulating HTML elements through JavaScript.
 
 ## Acceptance Criteria
 GIVEN I am taking a code quiz
@@ -25,10 +25,8 @@ WHEN the game is over
 THEN I can save my initials and score
 
 ## Additional Information
-### The Difficulties
-I ran into a wall with this challenge because I really wanted to use a for loop to iterate over the quiz questions. I tried to get the for loop to stop executing for 5 seconds but that did not work. Finally I broke up the different pieces of this challenge into individual functions and was able to make the quiz not advance until a question had been answered.
-
-I think there is still some refactoring work that can be done here, I used the hide and show functions pretty heavily and there seems to be some redundancy there. 
+### Notes
+I really wanted to use a for loop to iterate over the quiz questions, but for loops are not designed to stop and "wait" for a button click. I tried using setTimeout to get the for loop to stop executing for 5 seconds but that unfortunately did not work. Breaking up the different pieces of the quiz into getQuestion and getAnswers was the trick because then you could have the program wait for a button click before proceeding.
 
 ### Mock Up
 ![HighScore Display](./assets/images/HighScores.png?raw=true "HighScores")
