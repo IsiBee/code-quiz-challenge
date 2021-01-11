@@ -26,11 +26,11 @@ var quizQuestions = [{ q: "Inside which HTML element does JavaScript live?", a: 
 { q: "Which key word immediately terminates a loop?", a: "b" },
 { q: "Which key word immediately terminates a function?", a: "c" },
 { q: "________ are required when writing an If statement?", a: "d" },
-{ q: "", a: "" },
-{ q: "", a: "" },
-{ q: "", a: "" },
-{ q: "", a: "" },
-{ q: "What color is the sky?", a: "c" }];
+{ q: "What is the term for a function calling itself?", a: "a" },
+{ q: "Which of following can you NOT use JavaScript for?", a: "d" },
+{ q: "What built in method can be used to display an alert?", a: "b" },
+{ q: "The setInterval and setTimeout methods use which unit of measure for time?", a: "d" },
+{ q: "What method needs to be called to ensure setInterval() does not continue forever?", a: "c" }];
 
 // Creates an array of multiple choice answer objects. 
 // These are potential answers for each question listed above.
@@ -40,11 +40,13 @@ var quizMultipleChoiceAnswers = [{ a: "<script>", b: "<head>", c: "<meta>", d: "
 { a: "alert", b: "break", c: "console.log", d: "switch" },
 { a: "end", b: "!=", c: "return", d: "var" },
 { a: "===", b: "else if", c: "switch statements", d: "conditions" },
-{ a: "", b: "", c: "", d: "" },
-{ a: "", b: "", c: "", d: "" },
-{ a: "", b: "", c: "", d: "" },
-{ a: "", b: "", c: "", d: "" },
-{ a: "red", b: "yellow", c: "blue", d: "green" }];
+{ a: "recursion", b: "erosion", c: "innerHTML", d: "getAttribute" },
+{ a: "Changing the content of HTML elements?", b: "Changing the CSS of HTML elements", 
+c: "Hiding HTML elements", d: "Cooking dinner" },
+{ a: "confirm('This is an alert')", b: "alert('This is an alert')", 
+c: "document.alert('This is an alert')", d: "prompt('This is an alert'" },
+{ a: "nanoseconds", b: "minutes", c: "seconds", d: "milliseconds" },
+{ a: "clearEyed()", b: "clearAll()", c: "clearInterval()", d: "clearTimeout()" }];
 
 
 var hideContent = function (element) {
