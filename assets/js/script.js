@@ -1,9 +1,8 @@
-
-var timeCounter = 60;
 var questionNumber = 0;
 var quizScore = 0;
+var timeCounter = 60;
 
-
+var timerId;
 
 var beginQuizEl = document.querySelector("#start-button");
 var timerEl = document.querySelector("#timer");
@@ -16,6 +15,7 @@ var questionContainer = document.querySelector(".question-container");
 var answerContainer = document.querySelector(".answer-container");
 var highScoreContainer = document.querySelector(".highScore-container");
 var formEl = document.querySelector(".initials-form");
+var buttonContainerEl = document.querySelector(".button-container");
 
 var questionEl = document.querySelector("#question");
 var answerAEl = document.querySelector("#answer-a");
@@ -47,12 +47,12 @@ var quizMultipleChoiceAnswers = [{ a: "<script>", b: "<head>", c: "<meta>", d: "
 { a: "===", b: "else if", c: "switch statements", d: "conditions" },
 { a: "recursion", b: "erosion", c: "innerHTML", d: "getAttribute" },
 {
-    a: "Changing the content of HTML elements?", b: "Changing the CSS of HTML elements",
+    a: "Changing the content of HTML elements", b: "Changing the CSS of HTML elements",
     c: "Hiding HTML elements", d: "Cooking dinner"
 },
 {
     a: "confirm('This is an alert')", b: "alert('This is an alert')",
-    c: "document.alert('This is an alert')", d: "prompt('This is an alert'"
+    c: "document.alert('This is an alert')", d: "prompt('This is an alert')"
 },
 { a: "nanoseconds", b: "minutes", c: "seconds", d: "milliseconds" },
 { a: "clearEyed()", b: "clearAll()", c: "clearInterval()", d: "clearTimeout()" }];
@@ -66,19 +66,55 @@ var showContent = function (element) {
     element.removeAttribute("style");
 };
 
-var countDown = function () {
+var showQuiz = function () {
+
+    hideContent(welcomeEl);
+    hideContent(beginQuizEl);
+
+    showContent(questionContainer);
+    showContent(answerContainer);
     showContent(timerEl);
-    var timeLeft = setInterval(function () {
-        if ((timeCounter <= 0) || (questionNumber === quizQuestions.length)) {
-            hideContent(timerEl);
-            clearInterval(timeLeft);
-            endQuiz();
-        }
-        else {
-            timerEl.textContent = "Timer: " + timeCounter + " s";
-            timeCounter--;
-        }
-    }, 1000);
+};
+
+var showHighscore = function () {
+    // Hides the quiz
+    hideContent(questionContainer);
+    hideContent(answerContainer);
+    hideContent(timerEl);
+    // Hides welcome content if someone clicked the View Highscores button.
+    hideContent(welcomeEl);
+    hideContent(beginQuizEl);
+    hideContent(viewBtn);
+    // Shows highscores
+    showContent(highScoreContainer);
+
+};
+
+var beginState = function () {
+    hideContent(timerEl);
+    hideContent(questionContainer);
+    hideContent(answerContainer);
+    hideContent(highScoreContainer);
+
+    showContent(welcomeEl);
+    showContent(beginQuizEl);
+
+    // Reset Game Conditions
+    timerEl.textContent = "Timer: 60 s";
+    timeCounter = 60;
+    quizScore = 0;
+    questionNumber = 0;
+};
+
+var countDown = function () {
+    timerEl.textContent = "Timer: " + timeCounter + " s";
+    timeCounter--;
+    if (timeCounter <= 0) {
+        hideContent(timerEl);
+        clearInterval(timerId);
+        endQuiz();
+    }
+
 };
 
 var clearResult = function () {
@@ -132,17 +168,14 @@ var getMultipleChoiceAnswers = function () {
 };
 
 var takeQuiz = function () {
-    // Hide welcome page elements
-    hideContent(welcomeEl);
-    hideContent(beginQuizEl);
-    // begin timer
-    countDown();
-    // Show quiz HTML elements
-    showContent(questionContainer);
-    showContent(answerContainer);
-
+    // Hide welcome elements and show quiz elements.
+    showQuiz();
     // The first time through we need to get a question.
     getQuestion();
+    // Begin Timer
+    timerId = setInterval(countDown, 1000)
+    // show the timer element on the page
+    showContent(timerEl);
     // Get the first set of answers.
     getMultipleChoiceAnswers();
     // Wait for a response before jumping into the getAnswer function.
@@ -155,6 +188,7 @@ var takeQuiz = function () {
 
 var score = function () {
     var totalScore = quizScore + timeCounter;
+    // Don't allow negative scores
     if (totalScore < 0) {
         totalScore = 0;
     }
@@ -162,38 +196,47 @@ var score = function () {
 };
 
 var endQuiz = function () {
-    hideContent(timerEl);
-    hideContent(questionContainer);
-    hideContent(answerContainer);
-
-    showContent(highScoreContainer);
+    clearInterval(timerId);
+    clearResult();
+    showHighscore();
+    showContent(formEl);
+    hideContent(buttonContainerEl);
 
     highScoreEl.textContent = "Quiz Complete! Your score is: " + score();
 
 };
+var clearStorage = function () {
+    localStorage.clear();
+    location.reload();
+}
 
-var viewHighScores = function(){
-    // If someone viewed highscores without completing the quiz.
-    hideContent(timerEl);
-    hideContent(questionContainer);
-    hideContent(answerContainer);
+var viewHighScores = function () {
+    // hides the quiz and show the highscores.
+    showHighscore();
     hideContent(formEl);
-    hideContent(welcomeEl);
-    hideContent(beginQuizEl);
-
-
-    showContent(highScoreContainer);
+    showContent(buttonContainerEl);
+    // Create a title element for highscores
+    var newTitle = document.getElementById("final-score");
+    newTitle.textContent = "Saved Highscores"
+    // Remove the instructions telling user to input initials.
     var information = document.getElementById("final-information");
-    information.textContent = "HighScores: "
+    information.textContent = ""
+    // Create a button for taking the quiz
+    var quizBtn = document.getElementById("quiz-btn");
+    quizBtn.addEventListener("click", beginState);
+    // Create a button for clearing saved highscores.
+    var clearBtn = document.getElementById("clear-btn");
+    clearBtn.addEventListener("click", clearStorage);
+    // get list of scores and display them to the user.
     var scores = JSON.parse(localStorage.getItem("highScores"));
-    for(var i=0; i < scores.length; i++){
+    for (var i = 0; i < scores.length; i++) {
+
         var item = document.createElement("h4")
         var initialItem = scores[i].inits;
         var highScoreItem = scores[i].score;
 
-        
         item.textContent = initialItem + " - " + highScoreItem;
-        highScoreContainer.appendChild(item);
+        information.appendChild(item);
     }
 
 };
@@ -215,7 +258,7 @@ var saveHighScore = function (event) {
 
         // set the list equal to empty array.
         var highscoreList = [];
-        if(localStorage.getItem("highScores")){
+        if (localStorage.getItem("highScores")) {
             highscoreList = JSON.parse(localStorage.getItem("highScores"));
         }
 
@@ -228,17 +271,18 @@ var saveHighScore = function (event) {
     viewHighScores();
 };
 
+beginState();
 
-    // Event Listeners
-    hideContent(timerEl);
-    hideContent(questionContainer);
-    hideContent(answerContainer);
-    hideContent(highScoreContainer);
 
-    beginQuizEl.addEventListener("click", takeQuiz);
 
-    highScoreBtn.addEventListener("click", saveHighScore);
+// Event Listeners
 
-    viewBtn.addEventListener("click", viewHighScores);
+beginQuizEl.addEventListener("click", takeQuiz);
+
+highScoreBtn.addEventListener("click", saveHighScore);
+
+viewBtn.addEventListener("click", viewHighScores);
+
+
 
 

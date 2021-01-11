@@ -44,15 +44,22 @@
         <h4 id="answer-result"></h4>
 
         <div class="main-container highScore-container">
-            <h2 id="final-score"></h2>
-            <p id="final-information">Consider adding your score to the HighScores board by typing your initials below and clicking Ok.</p>
-            <form class="initials-form">
-                <label for="initials-input">Enter your initials: </label>
-                <input type="text" id="initials-input" name="initials-input">
-                <button class="btn" id="highScore-btn" type="submit">Ok</button>
-            </form>
+            <div class="score-container">
+                <h2 id="final-score"></h2>
+                <p id="final-information">Consider adding your score to the HighScores board by typing your initials
+                    below.</p>
+                <form class="initials-form">
+                    <label for="initials-input">Enter your initials: </label>
+                    <input type="text" id="initials-input" name="initials-input">
+                    <button class="btn" id="highScore-btn" type="submit">Save Score</button>
+                </form>
+            </div>
 
-            
+            <div class="main-container button-container">
+                <button class="btn" id="quiz-btn">Take Quiz</button>
+                <button class="btn" id="clear-btn">Clear Scores</button>
+            </div>
+
         </div>
 
 
