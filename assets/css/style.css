@@ -4,7 +4,7 @@
 
 :root {
     --primary-color: #FFBF00;
-    --secondary-color: #770058;
+    --secondary-color: #203731;
     --light-color: #E7DEDA;
 }
 
@@ -26,6 +26,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
 }
 
 nav div {
@@ -138,11 +139,16 @@ p {
     padding: 5px 15px;
     border: 1px solid var(--light-color);
     border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #final-score{
     margin: 5px;
     border-bottom:2px solid rgba(255, 255, 255, .75);
+
 }
 
 #final-information {
@@ -151,8 +157,8 @@ p {
 
 .initials-form {
     width: 100%;
-    display: flex;
-    text-align: left;
+    display: block;
+    text-align: center;
     margin-top: 15px;
 }
 
@@ -161,8 +167,6 @@ p {
     display: inline;
     padding: 7px 15px;
     font-size: 16px;
-    width: 50%;
-    margin-left: 15px;
     margin-right: 15px;
     border-radius: 10px;
     background-color:var(--light-color);
@@ -170,4 +174,15 @@ p {
 
 .initials-form label {
     padding: 10px;
+    font-size: 16px;
+}
+
+.button-container{
+    background-color: var(--light-color);
+    border: none;
+    margin: 10px;
+    padding-bottom: 20px;
+    width: 35%;
+    display: flex;
+    justify-content: space-between;
 }

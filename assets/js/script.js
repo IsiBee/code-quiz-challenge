@@ -9,6 +9,7 @@ var timerEl = document.querySelector("#timer");
 var highScoreEl = document.querySelector("#final-score");
 var highScoreBtn = document.querySelector("#highScore-btn");
 var viewBtn = document.querySelector("#view-highscores");
+var finalInfoEl = document.querySelector("#final-information")
 
 var welcomeEl = document.querySelector(".main-container");
 var questionContainer = document.querySelector(".question-container");
@@ -70,6 +71,8 @@ var showQuiz = function () {
 
     hideContent(welcomeEl);
     hideContent(beginQuizEl);
+    hideContent(buttonContainerEl);
+    hideContent(highScoreContainer);
 
     showContent(questionContainer);
     showContent(answerContainer);
@@ -95,15 +98,10 @@ var beginState = function () {
     hideContent(questionContainer);
     hideContent(answerContainer);
     hideContent(highScoreContainer);
+    hideContent(buttonContainerEl);
 
     showContent(welcomeEl);
     showContent(beginQuizEl);
-
-    // Reset Game Conditions
-    timerEl.textContent = "Timer: 60 s";
-    timeCounter = 60;
-    quizScore = 0;
-    questionNumber = 0;
 };
 
 var countDown = function () {
@@ -170,6 +168,11 @@ var getMultipleChoiceAnswers = function () {
 var takeQuiz = function () {
     // Hide welcome elements and show quiz elements.
     showQuiz();
+    // Reset Game Conditions
+    timerEl.textContent = "Timer: 60 s";
+    timeCounter = 60;
+    quizScore = 0;
+    questionNumber = 0;
     // The first time through we need to get a question.
     getQuestion();
     // Begin Timer
@@ -204,7 +207,11 @@ var endQuiz = function () {
 
     highScoreEl.textContent = "Quiz Complete! Your score is: " + score();
 
+    // Add directions for user
+    finalInfoEl.textContent = "Consider adding your score to the HighScores board by typing your initials below.";
+
 };
+
 var clearStorage = function () {
     localStorage.clear();
     location.reload();
@@ -220,10 +227,10 @@ var viewHighScores = function () {
     newTitle.textContent = "Saved Highscores"
     // Remove the instructions telling user to input initials.
     var information = document.getElementById("final-information");
-    information.textContent = ""
+    finalInfoEl.textContent = ""
     // Create a button for taking the quiz
     var quizBtn = document.getElementById("quiz-btn");
-    quizBtn.addEventListener("click", beginState);
+    quizBtn.addEventListener("click", takeQuiz);
     // Create a button for clearing saved highscores.
     var clearBtn = document.getElementById("clear-btn");
     clearBtn.addEventListener("click", clearStorage);
@@ -236,7 +243,7 @@ var viewHighScores = function () {
         var highScoreItem = scores[i].score;
 
         item.textContent = initialItem + " - " + highScoreItem;
-        information.appendChild(item);
+        finalInfoEl.appendChild(item);
     }
 
 };
